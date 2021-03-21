@@ -117,6 +117,16 @@ proc `-.`*[T: SomeNumber|Complex[float32]|Complex[float64]](t: Tensor[T], val: T
   returnEmptyIfEmpty(t)
   result = t.map_inline(x - val)
 
+proc `*.`*[T: SomeNumber|Complex[float32]|Complex[float64]](t: Tensor[T], val: T): Tensor[T] {.noInit.} =
+  ## Broadcasted division
+  returnEmptyIfEmpty(t)
+  result = t.map_inline(x * val)
+
+proc `*.`*[T: SomeNumber|Complex[float32]|Complex[float64]](val: T, t: Tensor[T]): Tensor[T] {.noInit.} =
+  ## Broadcasted division
+  returnEmptyIfEmpty(t)
+  result = t.map_inline(x * val)
+
 proc `/.`*[T: SomeNumber|Complex[float32]|Complex[float64]](val: T, t: Tensor[T]): Tensor[T] {.noInit.} =
   ## Broadcasted division
   returnEmptyIfEmpty(t)
@@ -160,7 +170,7 @@ proc `^.=`*[T: SomeFloat|Complex[float32]|Complex[float64]](t: var Tensor[T], ex
   t.apply_inline pow(x, exponent)
 
 proc `*.=`*[T: SomeNumber|Complex[float32]|Complex[float64]](t: var Tensor[T], val: T) =
-  ## Tensor in-place multiplication with a broadcasted scalar.
+  ## Tensor in-place multiplication with a broadcasted scalar. 
   if t.size == 0:
     return
   t.apply_inline(x * val)
@@ -186,3 +196,4 @@ implDeprecatedBy(`.=-`, `-.=`, exported = true)
 implDeprecatedBy(`.=*`, `*.=`, exported = true)
 implDeprecatedBy(`.=/`, `/.=`, exported = true)
 implDeprecatedBy(`.^=`, `^.=`, exported = true)
+                                
