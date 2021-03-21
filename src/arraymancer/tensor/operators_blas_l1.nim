@@ -64,12 +64,23 @@ proc `-=`*[T: SomeNumber|Complex[float32]|Complex[float64]](a: var Tensor[T], b:
 # #########################################################
 # # Tensor-scalar linear algebra
 
-proc `*`*[T: SomeNumber|Complex[float32]|Complex[float64]](a: T, t: Tensor[T]): Tensor[T] {.noInit.} =
+# proc `*`*[T: SomeNumber|Complex[float32]|Complex[float64]](a: T, t: Tensor[T]): Tensor[T] {.noInit.} =
+#   ## Element-wise multiplication by a scalar
+#   returnEmptyIfEmpty(t)
+#   t.map_inline(x * a)
+
+proc `*`*[T: SomeNumber|Complex[float32]|Complex[float64],
+          G: SomeNumber|Complex[float32]|Complex[float64]](a: G, t: Tensor[T]): Tensor[G] {.noInit.} =
   ## Element-wise multiplication by a scalar
   returnEmptyIfEmpty(t)
   t.map_inline(x * a)
 
-proc `*`*[T: SomeNumber|Complex[float32]|Complex[float64]](t: Tensor[T], a: T): Tensor[T] {.noInit.} =
+# proc `*`*[T: SomeNumber|Complex[float32]|Complex[float64]](t: Tensor[T], a: T): Tensor[T] {.noInit.} =
+#   ## Element-wise multiplication by a scalar
+#   a * t
+
+proc `*`*[T: SomeNumber|Complex[float32]|Complex[float64],
+          G: SomeNumber|Complex[float32]|Complex[float64]](t: Tensor[T], a: G): Tensor[G] {.noInit.} =
   ## Element-wise multiplication by a scalar
   a * t
 
